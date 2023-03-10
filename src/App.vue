@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
-
+import Stepper from './Components/stepper.vue'
 const shuffle = (array) => {
   let currentIndex = array.length,  randomIndex
 
@@ -153,8 +153,8 @@ const NextQuestion = () => {
 
 <template>
 	<main class="app">
+		<stepper /> 
 		<h1>AWS Quizz Application</h1>
-		
 		<section class="quiz" v-if="!quizCompleted">
 			<div class="quiz-info">
 				<span class="question">{{ getCurrentQuestion.question }}</span>
