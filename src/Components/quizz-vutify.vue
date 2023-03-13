@@ -1,15 +1,14 @@
 <template>
- <v-progress-linear
-
-      model-value = "30"
-      color="light-blue"
-      height="15"
-	width="50"
-
-	striped
-    ></v-progress-linear>
+ 
 
       <section class="quizz-vutify" v-if="!quizCompleted">
+		<v-progress-linear
+  :model-value="progressValue"
+  color="light-blue"
+  height="15"
+  width="50"
+  striped
+>{{ progressValue }}</v-progress-linear>
 			<div class="quiz-info">
 				<span class="question">{{ getCurrentQuestion.question }}</span>
 				<span class="score">Score {{ score }}/{{ questions.length }}</span>
@@ -21,6 +20,7 @@
           wrong: getCurrentQuestion.selected == index && getCurrentQuestion.answer != index,
           disabled: getCurrentQuestion.selected != null && getCurrentQuestion.selected != index
         }">
+	  
 					<input 
 						type="radio" 
 						:id="'option' + index" 
@@ -169,26 +169,26 @@ p {
 }
 </style>
 
-<script setup>
-import { ref, computed } from 'vue'
+	<script setup>
+	import { ref, computed } from 'vue'
+	const progressValue = ref(0);
 
+	const shuffle = (array) => {
+	let currentIndex = array.length,  randomIndex
 
-const shuffle = (array) => {
-  let currentIndex = array.length,  randomIndex
+	while (currentIndex != 0) {
+	randomIndex = Math.floor(Math.random() * currentIndex)
+	currentIndex--
 
-  while (currentIndex != 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex)
-    currentIndex--
+	[array[currentIndex], array[randomIndex]] = [
+		array[randomIndex], array[currentIndex]]
+	}
 
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]]
-  }
+	return array
+	}
 
-  return array
-}
-
-const questions = ref(shuffle([
-  {
+	const questions = ref(shuffle([
+	{
     question: 'Why is AWS more economical than traditional data centers for applications with varying compute workloads?',
     answer: 1,
     options: [
@@ -290,9 +290,6 @@ const questions = ref(shuffle([
 ]))
 
 const quizCompleted = ref(false)
-
-var number =[];
-var l = 1;
 const currentQuestion = ref(0)
 const score = computed(() => {
 	let value = 0
@@ -319,20 +316,14 @@ const SetAnswer = (e) => {
 
 const NextQuestion = () => {
 	if (currentQuestion.value < questions.value.length - 1) {
-		
-		// console.log(currentQuestion.value);
-		//push in the array 1 in every time 
-		number.push(1);
-		l = number.length*10;
-		console.log(l)
-		currentQuestion.value++
-		return
-	}
-	quizCompleted.value = true
+    currentQuestion.value++;
+    progressValue.value += 10;
+    console.log(progressValue.value);
+  } else {
+    quizCompleted.value = true;
+  }
 }
-const progress = computed(() => {
-  return ((currentQuestion.value + 1) / questions.value.length) * 100
-})
+
 
 
 
