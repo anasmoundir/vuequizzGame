@@ -1,9 +1,11 @@
 <template>
-	
-	<v-progress-linear
-      :value = calculateProgress()
-	color="light-blue"
-	height="20"
+ <v-progress-linear
+
+      model-value = "30"
+      color="light-blue"
+      height="15"
+	width="50"
+
 	striped
     ></v-progress-linear>
 
@@ -46,7 +48,7 @@
 		</section>
 
 		<section v-else>
-			<h2>You have finished the quiz!</h2>
+			<h2>termine !</h2>
 			<p>Your score is {{ score }}/{{ questions.length }}</p>
 		</section>
   
@@ -288,6 +290,9 @@ const questions = ref(shuffle([
 ]))
 
 const quizCompleted = ref(false)
+
+var number =[];
+var l = 1;
 const currentQuestion = ref(0)
 const score = computed(() => {
 	let value = 0
@@ -314,16 +319,21 @@ const SetAnswer = (e) => {
 
 const NextQuestion = () => {
 	if (currentQuestion.value < questions.value.length - 1) {
-		console.log(currentQuestion.value);
+		
+		// console.log(currentQuestion.value);
+		//push in the array 1 in every time 
+		number.push(1);
+		l = number.length*10;
+		console.log(l)
 		currentQuestion.value++
-	
 		return
 	}
 	quizCompleted.value = true
 }
-const calculateProgress = () => {
-      return (questions.value.length / questions.value.length) * 100
-    }
-    
+const progress = computed(() => {
+  return ((currentQuestion.value + 1) / questions.value.length) * 100
+})
+
+
 
 </script>

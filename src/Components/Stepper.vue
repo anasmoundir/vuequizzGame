@@ -1,4 +1,3 @@
-
 <template>
  <div>
     <v-toolbar
@@ -13,21 +12,24 @@
         <v-btn text>Home</v-btn>
         <v-btn text>About</v-btn>
         <v-btn text>Contact</v-btn>
+        {{this.name}}
       </v-toolbar-items>
     </v-toolbar>
   </div>
 <v-timeline direction="horizontal" line-inset="12">
-    <v-timeline-item @click="next" dot-color="green">
-      enter your name
+    <v-timeline-item  :dot-color = "step1" >
+      enter your name 
     </v-timeline-item>
 
-    <v-timeline-item >
+    <v-timeline-item  :dot-color="step2" >
        play the quizz 
+  
     </v-timeline-item>
 
-    <v-timeline-item>
+    <v-timeline-item  :dot-color="step3">
     Get you score
     </v-timeline-item>
+
   </v-timeline>
  
 </template>
@@ -35,20 +37,28 @@
 <script>
 export default {
   
-  methods: {
-    next () {
-      console.log('next');
-      this.step++
-
-    },
-    prev () {
-      this.step--
-    }
+  props: {
+    step1: String,
+    step2: String,
+    step3: String,
   },
-  name: 'Stepper-Example',
+  methods: {  
 
-  data: () => ({
-    step: 1
-  })
+    methode (){
+      console.log(this.step1)
+      this.variable = this.step1
+      return this.step1;
+    }
+  
+ 
+  },
+
+
+data ()
+{
+  return
+  { 
+  }
+}
 }
 </script>
